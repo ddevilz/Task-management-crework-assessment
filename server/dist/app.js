@@ -15,11 +15,11 @@ app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use("/api/v1", index_routes_1.default);
-app.use(error_middleware_1.notFound);
-app.use(error_middleware_1.errorHandler);
 app.get("/", (_req, res) => {
     res.status(200).send("Hello World!");
 });
+app.use(error_middleware_1.notFound);
+app.use(error_middleware_1.errorHandler);
 app.listen(config_1.config.PORT, () => {
     console.log("App listening on port " + config_1.config.PORT);
 });

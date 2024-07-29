@@ -14,12 +14,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1", router);
 
-app.use(notFound);
-app.use(errorHandler);
-
 app.get("/", (_req: Request, res: Response) => {
   res.status(200).send("Hello World!");
 });
+
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(config.PORT, () => {
   console.log("App listening on port " + config.PORT);
