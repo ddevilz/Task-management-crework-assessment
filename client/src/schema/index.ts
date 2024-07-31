@@ -16,14 +16,13 @@ export const RegisterSchema = z.object({
 
 export type RegisterSchemaType = z.infer<typeof RegisterSchema>;
 
-export const ResetSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
+export const TaskSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  description: z.string().optional(),
+  status: z.enum(["To Do", "In Progress", "Under Review", "Finished"]),
+  priority: z.enum(["Low", "Medium", "Urgent"]),
+  deadline: z.string().optional(),
+  user: z.any(),
 });
 
-export type ResetSchemaType = z.infer<typeof ResetSchema>;
-
-export const PasswordSchema = z.object({
-  password: z.string().min(6, { message: "Password is required" }),
-});
-
-export type PasswordSchemaType = z.infer<typeof PasswordSchema>;
+export type TaskSchemaType = z.infer<typeof TaskSchema>;
