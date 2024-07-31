@@ -9,6 +9,7 @@ import { RegisterSchema, RegisterSchemaType } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { BASE_URL } from "@/api";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
   const form = useForm<RegisterSchemaType>({
@@ -19,7 +20,7 @@ const RegisterForm = () => {
       password: "",
     },
   });
-
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,16 +28,14 @@ const RegisterForm = () => {
     setLoading(true);
     setError(null);
     try {
-      const response: Response = await fetch(
-        `${BASE_URL}/api/v1/user/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response: Response = await fetch(`${BASE_URL}/user/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+        credentials: "include",
+      });
 
       if (!response.ok) {
         throw new Error("Failed to register");
@@ -44,6 +43,7 @@ const RegisterForm = () => {
 
       const user = response.json();
       console.log("Registration successful", user);
+      router.push("/");
     } catch (error) {
       setError("Registration failed. Please try again.");
       console.error("Registration failed", error);

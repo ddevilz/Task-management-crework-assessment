@@ -9,6 +9,7 @@ import { LoginSchema, LoginSchemaType } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { BASE_URL } from "@/api";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
   const form = useForm<LoginSchemaType>({
@@ -18,7 +19,7 @@ const LoginForm = () => {
       password: "",
     },
   });
-
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,12 +27,13 @@ const LoginForm = () => {
     setLoading(true);
     setError(null);
     try {
-      const response: Response = await fetch(`${BASE_URL}/api/v1/user/login`, {
+      const response: Response = await fetch(`${BASE_URL}/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
+        credentials: "include",
       });
 
       if (!response.ok) {
@@ -40,6 +42,7 @@ const LoginForm = () => {
 
       const user = response.json();
       console.log("Login successful", user);
+      router.push("/");
     } catch (error) {
       setError("Login failed. Please try again.");
       console.error("Login failed", error);
