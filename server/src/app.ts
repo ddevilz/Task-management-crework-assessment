@@ -4,6 +4,7 @@ import { config } from "./config/config";
 import cors from "cors";
 import router from "./routes/index.routes";
 import { errorHandler, notFound } from "./middleware/error.middleware";
+import cookieParser from "cookie-parser";
 
 const app: Application = express();
 
@@ -11,6 +12,7 @@ connectDb();
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use("/api/v1", router);
 
